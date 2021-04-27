@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Blog | {{category}}: {{post}}{% endblock %}
+
+{% block page_content %}
+
+    <h1>{{post}}</h1>
+
+    <div id="post{{ post.id }}" >
+        {{post.body|safe}}
+        <button class="float-left btn p-0"  style="font-size:24px; color:red;" ><i class="fas fa-heart" id="like{{ message.id }}"></i></button>
+        <form class=" float-right" method="post">
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Make a Comment</div>
+                        </div>
+                        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% if request.user.is_authenticated %}
+        <input type="hidden" id="like_post" name="{{request.user}}" value="{{post.id}}">
+    {% endif %}
+    <script src="{% static '/blog/js/post.js' %}"></script>
+
+{% endblock %}

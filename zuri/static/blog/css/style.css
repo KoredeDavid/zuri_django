@@ -1,0 +1,12 @@
+body{
+    background: whitesmoke;
+    margin: 0;
+}
+
+
+
+.middle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

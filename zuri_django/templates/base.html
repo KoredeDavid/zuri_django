@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static '/blog/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/blog/css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <script src="{% static '/blog/js/jquery.js' %}"></script>
+    <script src="{% static '/blog/js/bootstrap.min.js' %}"></script>
+    <script src="https://concealme.herokuapp.com/static/bootstrap-4.4.1-dist/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+        <div class="container">
+            <a class="navbar-brand pr-2 pl-2" href="/" id="blog">Blog  </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto ">
+                    {% if not request.user.is_authenticated %}
+                        <li class="nav-item active">
+                            <a class="nav-link " href="{% url 'sign_in' %}">Login</a>
+                        </li>
+                        <li class="nav-item active ">
+                            <a class="nav-link " href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% elif request.user.is_author %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'articles_factory' %}" id="articles">Articles Factory</a>
+                        </li>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item active mr-3 ">
+                                <a class="nav-link" href="{% url 'sign_out' %}">Sign Out</a>
+                        </li>
+
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+       {% block page_content %}{% endblock %}
+    </div>
+
+    <script type="text/javascript">
+        {% block js %}{% endblock %}
+    </script>
+
+</html>

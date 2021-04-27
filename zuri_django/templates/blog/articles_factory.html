@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Article Factory{% endblock %}
+
+{% block page_content %}
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        {{form.as_p}}
+        {% if request.user.is_boss or request.user.is_pro_author %}
+            <button type="submit" name="save">Save </button>
+        {% else %}
+            <button type="submit" name="send_for_approval">Send For Approval </button>
+        {% endif %}
+        <button type="submit" name="save_as_draft">Save as Draft</button>
+    </form>
+{% endblock %}
+
+{% block js %}
+    var articles = document.querySelector('#articles')
+    articles.style.background = 'gold'
+
+{% endblock %}

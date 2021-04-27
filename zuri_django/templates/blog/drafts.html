@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Article Factory{% endblock %}
+
+{% block page_content %}
+    {% for draft in drafts %}
+        {{draft}}
+    {% endfor %}
+
+{% endblock %}

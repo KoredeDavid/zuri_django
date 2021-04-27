@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <link rel="stylesheet" href="{% static '/blog/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+
+    <body class="container">
+
+
+         <div class="row mt-5">
+            <div class="col-md-6 mx-auto">
+                <div class="card-body mb-5   mx-auto ">
+                    <form class="needs-validation " method="post" novalidate >
+
+                        <p class="h4 mb-4 text-center"><b>Register</b></p>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                    <div class="alert text-center alert-danger" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% csrf_token %}
+                        {{form.username}}                        
+                        <div  class="invalid-feedback">
+                            Please choose a username.
+                        </div>                    
+                        {% if form.username.errors %}                           
+                                {% for error in form.username.errors %}
+                                  <p  class="error-messages">{{ error }}</p>
+                                {% endfor %}                           
+                        {% endif %}
+                        
+                        {{form.email}}
+                        <div  class="invalid-feedback">
+                            Please choose a valid email.
+                          </div>
+                        {% if form.email.errors %}                            
+                            {% for error in form.email.errors %}
+                                <p  class="error-messages">{{ error }}</p>
+                            {% endfor %}                            
+                        {% endif %}
+                        
+                        {{form.password1}}
+                        <div  class="invalid-feedback">
+                            Please choose a password.
+                            </div>
+                        {% if form.password1.errors %}                               
+                            {% for error in form.password1.errors %}
+                                <p  class="error-messages">{{ error }}</p>
+                            {% endfor %}                                
+                        {% endif %}
+                        
+                        {{form.password2}}                        
+                                <div  class="invalid-feedback">
+                                    Please repeat your password.
+                                    </div>
+                            {% if form.password2.errors %}                               
+                                {% for error in form.password2.errors %}
+                                    <p  class="mb-1 error-messages">{{ error }}</p>
+                                {% endfor %}                                
+                            {% endif %}                
+                        <button class="btn btn-info btn-block my-4" type="submit">Join</button>
+                        <div class="card-footer text-center">
+                            <p>Have an account?
+                                <a href="{% url 'sign_in' %}">Login</a>
+                            </p>
+                        </div>
+                        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+       <script type="text/javascript">
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+        </script>
+
+    </body>
+
+</html>
+
