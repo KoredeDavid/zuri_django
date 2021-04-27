@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zuri_django.settings')
-
+if os.environ.get('DJANGO_ENV', '') == 'production':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zuri_django.settings.prod')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zuri_django.settings.dev')
 application = get_wsgi_application()
