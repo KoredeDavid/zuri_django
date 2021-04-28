@@ -27,7 +27,9 @@ share/python-wheels/
 *.egg
 MANIFEST
 .idea
- zuri_django/__pycache__
+zuri_django/__pycache__/settings.cpython-36.pyc
+zuri_django/__pycache__/urls.cpython-36.pyc
+zuri_django/__pycache__/wsgi.cpython-36.pyc
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

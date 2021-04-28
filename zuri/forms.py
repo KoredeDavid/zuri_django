@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import CustomUser, Post
+from .models import CustomUser, Post, Comment
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -44,7 +44,10 @@ class PostForm(forms.ModelForm):
         exclude = ('author', 'approved', 'approved_by', 'published', 'draft')
 
 
+class CommentForm(forms.ModelForm):
+    body = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': "Comment", 'class': 'form-control w-75', 'rows':'4'}))
 
-
-
-
+    class Meta:
+        model = Comment
+        fields = ('body',)

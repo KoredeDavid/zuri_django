@@ -8,21 +8,16 @@
 {% block page_content %}
 
     <h1>{{category}}</h1>
-    <div class="card" style="width:20%">
-        <div class="card-body">
-            <h4 class="card-title">Bologna</h4>
-            <h6 class="card-subtitle mb-2 text-muted">Emilia-Romagna Region, Italy</h6>
-            <p class="card-text">It is the seventh most populous city in Italy, at the heart of a metropolitan area of about one million people. </p>
-            <a href="#" class="card-link">Read More</a>
-            <a href="#" class="card-link">Book a Trip</a>
-        </div>
-        <img class="card-img-bottom" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/bologna-2.jpg" alt="Bologna">
-    </div>
-    {% for post in posts %}
-        <a href="{% url 'post' post.slug  %}">{{post}}</a>
-        <small>{{post.about}}</small>
-    {% empty %}
-        There are no posts in {{category}} yet
-    {% endfor %}
+        {% for post in posts %}
+            <div class="card col-md-5  mt-5 " style="min-height:300px">
+                <div class="card-body">
+                    <h4 class="card-title"> <a href="{% url 'post' post.slug  %}">{{post}}</a><br/></h4>
+                    <p class="card-text"> <small>{{post.about}}</small> </p>
+                </div>
+                <img class="card-img-bottom mb-3" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/bologna-2.jpg" style="height:250px"  alt="Bologna">
+            </div>
+        {% empty %}
+            There are no posts in {{category}} yet
+        {% endfor %}
 
 {% endblock %}

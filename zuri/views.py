@@ -1,17 +1,19 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.core.exceptions import PermissionDenied
-from django.http import Http404, HttpResponseForbidden
+from django.http import Http404, HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import CustomUserCreationForm, PostForm
+from .forms import CustomUserCreationForm, PostForm, CommentForm
 from .models import Post, Category, Comment, CustomUser
 
 
 # Create your views here.
 
 def register(request):
+    next_page = request.GET.get('next')
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -22,15 +24,19 @@ def register(request):
             login_user = authenticate(username=user, password=password)
             print(login_user)
             login(request, login_user)
-            return redirect('home')
+            if next_page is None:
+                return redirect('home')
+            elif user is not None:
+                return redirect(next_page)
     else:
         form = CustomUserCreationForm()
     return render(request, 'blog/register.html', {'form': form})
 
 
 def sign_in(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     next_page = request.GET.get('next')
-    print(next_page)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -59,6 +65,10 @@ def sign_in(request):
 
     else:
         return render(request, 'blog/login.html')
+
+
+def repo(request):
+    return redirect('https://github.com/korededavid/zuri_django/')
 
 
 def home(request):
@@ -118,9 +128,24 @@ def category(request, category_slug):
 def post(request, post_slug):
     post = get_object_or_404(Post, slug=post_slug, published=True, draft=False)
     category = Category.objects.get(post__slug=post_slug)
+
+    if request.method == 'POST':
+        print('rgerget')
+        if request.user.is_authenticated:
+            print('rgt')
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.user = request.user
+                instance.post = post
+                instance.save()
+                messages.success(request, 'Comment Saved')
+                return redirect(f'/post/{post_slug}/#form')
+    form = CommentForm()
     context = {
         'post': post,
         'category': category,
+        'form': form
     }
     return render(request, 'blog/post.html', context)
 
@@ -133,6 +158,24 @@ def blog_index(request):
     return render(request, "blog_index.html", context)
 
 
+# @login_required
+def comment(request, post):
+    comments = Comment.objects.filter(post=post).values('body', 'user__display_name').order_by('-created_on')
+    data = {'comments': list(comments)}
+    return JsonResponse(data, safe=False)
+
+
+# @login_required
+# def make_comment(request, user, post):
+#     if request.method == 'POST':
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             instance = form.save(commit=False)
+#             instance.user = user
+#             instance.post = post
+#             instance.save()
+#             post_slug = Post.objects.get(id=post).slug
+#             return redirect('post', post_slug)
 
 
 def sign_out(request):

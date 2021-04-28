@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os, json
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', "@6n7rh6c=vpc*kf%8+x+vg8w&pu$#bh+*@16p3q@cd*)*rf*5#")
+SECRET_KEY = os.environ.get('SECRET_KEY', "h)_^hry4hq+e=yw&sk2th^1hh637$#@^-%8l#0opiq*6q73d2r")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -107,13 +107,15 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+LOGIN_URL = "sign_in"
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 AUTH_USER_MODEL = 'zuri.CustomUser'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'anon.backends.CustomAuthentication',
+    'zuri.backends.CustomAuthentication',
 )
 
 SITE_ID = 1

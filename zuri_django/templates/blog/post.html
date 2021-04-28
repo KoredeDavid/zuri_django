@@ -7,31 +7,128 @@
 
 {% block page_content %}
 
+
     <h1>{{post}}</h1>
 
-    <div id="post{{ post.id }}" >
+    <div  id="post{{ post.id }}">
         {{post.body|safe}}
-        <button class="float-left btn p-0"  style="font-size:24px; color:red;" ><i class="fas fa-heart" id="like{{ message.id }}"></i></button>
-        <form class=" float-right" method="post">
-            <div class="form-row align-items-center">
-                <div class="col-auto">
-                    <label class="sr-only" for="inlineFormInputGroup">Username</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">Make a Comment</div>
-                        </div>
-                        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+        <div class="p-5 mx-auto  border " id="form">
+            <div class="middle">
+                <button class="btn bla mr-3  mb-2 border-right"  style="font-size:24px; color:red;" ><i class="fas fa-heart" id="like{{ message.id }}"></i></button>
+                <button class=" mr-3  p-0 mb-2"  style="font-size:24px; color:red;" id="comment" >Comment</button>
+            </div>
+            <div class="class" >
+                <form class="d-none" id="form-me"  method="post" >
+                    {% csrf_token %}
+                    <div class=" align-items-center">
+<!--                        <textarea id="id_body" rows="4" required class="form-control w-75" placeholder="Comment"></textarea>-->
+                        {{form}}
+                        <button type="submit" id="button" class="btn btn-primary mb-2 mt-2">Submit</button>
                     </div>
+                </form>
+                <hr>
+                {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                <div id="comments" class="mx-auto d-none"></div>
+
+            </div>
+        </div>
+    </div>
+            <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary d-none" id="popup" data-toggle="modal" data-target="#exampleModalCenter">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Please Sign In</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                <div class="modal-body">
+                    <div class="row mt-5">
+                        <div class="col-md-6 mx-auto">
+                            <div class=" mb-5   p-6 mx-auto " >
+                                <form class="text-center  needs-validation " method="post" id="login-form" novalidate>
+                                    <p class="h4 mb-4"><b>Sign in</b></p>
+                                    {% csrf_token %}
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <!-- Email -->
+                                    <input type="text" id="defaultLoginFormEmail" name="username" class="form-control mt-4" placeholder="Username or Email" required>
+                                    <div  class="invalid-feedback">
+                                        This field is required
+                                    </div>
+                                    <!-- Password -->
+                                    <input type="password" id="defaultLoginFormPassword" name="password" class="form-control mt-4" placeholder="Password" required>
+                                    <div  class="invalid-feedback">
+                                        This field is required
+                                    </div>
+                                    <div class="d-flex justify-content-around">
+                                        <div>
+                                            <!-- Forgot password -->
+                                            <a href="#">Forgot password?</a>
+                                        </div>
+                                    </div>
+                                    <!-- Sign in button -->
+                                    <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+                                    <div class="card-footer">
+                                        <p>Not a member?
+                                            <a href="{% url 'register' %}" id="register">Register</a>
+                                        </p>
+                                    </div>
+                                    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                    // Example starter JavaScript for disabling form submissions if there are invalid fields
+                    (function() {
+                      'use strict';
+                      window.addEventListener('load', function() {
+                        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                          form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                              event.preventDefault();
+                              event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                          }, false);
+                        });
+                      }, false);
+                    })();
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-    {% if request.user.is_authenticated %}
-        <input type="hidden" id="like_post" name="{{request.user}}" value="{{post.id}}">
-    {% endif %}
+
+    <input type="hidden" id="like_post" name="{{request.user}}" value="{{post.id}}">
+    <input type="hidden" id="is_authenticated" value= {% if request.user.is_authenticated %} 'true' {% endif %}>
+
     <script src="{% static '/blog/js/post.js' %}"></script>
 
 {% endblock %}

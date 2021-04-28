@@ -166,10 +166,10 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    author = models.CharField(max_length=60)
-    body = RichTextField(max_length=200)
+    user = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    body = models.CharField(max_length=200)
     created_on = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.author
+        return str(self.body)
