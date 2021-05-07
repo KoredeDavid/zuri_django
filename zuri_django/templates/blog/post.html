@@ -129,6 +129,6 @@
     <input type="hidden" id="like_post" name="{{request.user}}" value="{{post.id}}">
     <input type="hidden" id="is_authenticated" value= {% if request.user.is_authenticated %} 'true' {% endif %}>
 
-    <script src="{% static '/blog/js/post.js' %}"></script>
+    <script src="{% static 'blog/js/post.js/' %}"></script>
 
 {% endblock %}
