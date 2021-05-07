@@ -17,7 +17,4 @@ else:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zuri_django.settings.dev')
 application = get_wsgi_application()
 
-if os.environ.get('DJANGO_ENV', '') == 'production':    
-    from whitenoise.django import DjangoWhiteNoise
-    application = DjangoWhiteNoise(application)
-  
+
