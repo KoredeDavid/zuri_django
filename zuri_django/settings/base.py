@@ -103,9 +103,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Add these new lines
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 LOGIN_URL = "sign_in"
 
