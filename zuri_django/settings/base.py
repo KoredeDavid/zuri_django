@@ -17,6 +17,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', "h)_^hry4hq+e=yw&sk2th^1hh637$#@^-%8l#
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -103,9 +104,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Add these new lines
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 LOGIN_URL = "sign_in"
 
