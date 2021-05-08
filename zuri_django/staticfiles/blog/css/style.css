@@ -1,0 +1,31 @@
+body{
+    background: whitesmoke;
+    margin: 0;
+    padding:0
+}
+
+
+
+.middle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home_middle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media screen and (max-width:1000px) {
+    .home_middle{
+        display:block;
+        justify-content: none;
+        align-items:none;
+        margin-right:auto;
+        margin-left: auto;
+    }
+    
+}
